@@ -8,8 +8,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileNotFoundException;
 import java.time.OffsetDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -29,19 +29,41 @@ public class FileService {
 
         UUID id = UUID.randomUUID();
 
+        String originalFilename = file.getOriginalFilename();
+
+        String name = Objects.requireNonNullElse(
+                file.getOriginalFilename(),
+                "unknown"
+        );
+        String extension = "";
+
+        if (originalFilename != null) {
+            int dotIndex = originalFilename.lastIndexOf('.');
+
+            if (dotIndex > 0) {
+                name = originalFilename.substring(0, dotIndex);
+                extension = originalFilename.substring(dotIndex + 1);
+            }
+        }
+
         FileMetadata fileMetadata = new FileMetadata();
-        fileMetadata.setName(file.getOriginalFilename());
-        fileMetadata.setType(file.getContentType());
+        fileMetadata.setId(id);
+        fileMetadata.setName(name);
+        fileMetadata.setFileExtension(extension);
+        fileMetadata.setContentType(file.getContentType());
         fileMetadata.setSize(file.getSize());
         fileMetadata.setUploadedAt(OffsetDateTime.now());
-        fileMetadata.setId(id);
 
         try {
             storageProvider.save(file, id);
 
             fileMetadata = FileMetadataConverter.toModel(fileMetadataRepository.save(FileMetadataConverter.toEntity(fileMetadata)));
-        } catch (Exception e) {
-            storageProvider.delete(id);
+        } catch (RuntimeException e) {
+            try {
+                storageProvider.delete(id);
+            } catch (Exception ignored) {
+            }
+
             throw e;
         }
 

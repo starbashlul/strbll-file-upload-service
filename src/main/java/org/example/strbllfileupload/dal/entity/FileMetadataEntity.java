@@ -12,7 +12,8 @@ public class FileMetadataEntity {
     private UUID id;
     private Long size;
     private String name;
-    private String type;
+    private String contentType;
+    private String fileExtension;
     private OffsetDateTime uploadedAt;
 
     public FileMetadataEntity() {
@@ -43,12 +44,20 @@ public class FileMetadataEntity {
         this.name = name;
     }
 
-    public String getType() {
-        return type;
+    public String getContentType() {
+        return contentType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public String getFileExtension() {
+        return fileExtension;
+    }
+
+    public void setFileExtension(String fileExtension) {
+        this.fileExtension = fileExtension;
     }
 
     public OffsetDateTime getUploadedAt() {
@@ -78,7 +87,8 @@ public class FileMetadataEntity {
                 "id=" + id +
                 ", size=" + size +
                 ", name='" + name + '\'' +
-                ", type='" + type + '\'' +
+                ", contentType='" + contentType + '\'' +
+                ", fileExtension='" + fileExtension + '\'' +
                 ", uploadedAt=" + uploadedAt +
                 '}';
     }

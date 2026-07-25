@@ -15,7 +15,8 @@ public class FileMetadataConverter {
         entity.setId(model.getId());
         entity.setName(model.getName());
         entity.setSize(model.getSize());
-        entity.setType(model.getType());
+        entity.setContentType(model.getContentType());
+        entity.setFileExtension(model.getFileExtension());
         entity.setUploadedAt(model.getUploadedAt());
         return entity;
     }
@@ -27,7 +28,8 @@ public class FileMetadataConverter {
         model.setId(entity.getId());
         model.setName(entity.getName());
         model.setSize(entity.getSize());
-        model.setType(entity.getType());
+        model.setContentType(entity.getContentType());
+        model.setFileExtension(entity.getFileExtension());
         model.setUploadedAt(entity.getUploadedAt());
         return model;
     }
