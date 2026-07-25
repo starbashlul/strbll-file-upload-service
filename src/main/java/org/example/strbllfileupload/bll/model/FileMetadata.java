@@ -1,31 +1,33 @@
 package org.example.strbllfileupload.bll.model;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.util.UUID;
 
 public class FileMetadata {
-    private Integer id;
-    private Integer size;
+    private UUID id;
+    private Long size;
     private String name;
     private String type;
-    private LocalDateTime uploadedAt;
+    private OffsetDateTime uploadedAt;
 
     public FileMetadata() {
         //default
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
-    public Integer getSize() {
+    public Long getSize() {
         return size;
     }
 
-    public void setSize(Integer size) {
+    public void setSize(Long size) {
         this.size = size;
     }
 
@@ -45,11 +47,11 @@ public class FileMetadata {
         this.type = type;
     }
 
-    public LocalDateTime getUploadedAt() {
+    public OffsetDateTime getUploadedAt() {
         return uploadedAt;
     }
 
-    public void setUploadedAt(LocalDateTime uploadedAt) {
+    public void setUploadedAt(OffsetDateTime uploadedAt) {
         this.uploadedAt = uploadedAt;
     }
 

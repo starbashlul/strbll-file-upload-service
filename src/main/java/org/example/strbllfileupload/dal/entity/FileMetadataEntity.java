@@ -1,38 +1,37 @@
 package org.example.strbllfileupload.dal.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
-import java.time.LocalDateTime;
-import java.util.Objects;
+import java.time.OffsetDateTime;
+import java.util.UUID;
 
 @Entity
 public class FileMetadataEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_seq")
-    @SequenceGenerator(name = "id_seq", sequenceName = "id_seq", allocationSize = 1, initialValue = 10000)
-    private Integer id;
-    private Integer size;
+    private UUID id;
+    private Long size;
     private String name;
     private String type;
-    private LocalDateTime uploadedAt;
+    private OffsetDateTime uploadedAt;
 
     public FileMetadataEntity() {
         //default
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
-    public Integer getSize() {
+    public Long getSize() {
         return size;
     }
 
-    public void setSize(Integer size) {
+    public void setSize(Long size) {
         this.size = size;
     }
 
@@ -52,11 +51,11 @@ public class FileMetadataEntity {
         this.type = type;
     }
 
-    public LocalDateTime getUploadedAt() {
+    public OffsetDateTime getUploadedAt() {
         return uploadedAt;
     }
 
-    public void setUploadedAt(LocalDateTime uploadedAt) {
+    public void setUploadedAt(OffsetDateTime uploadedAt) {
         this.uploadedAt = uploadedAt;
     }
 
