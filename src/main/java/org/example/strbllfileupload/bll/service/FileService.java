@@ -8,6 +8,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.UUID;
@@ -58,13 +59,11 @@ public class FileService {
             storageProvider.save(file, id);
 
             fileMetadata = FileMetadataConverter.toModel(fileMetadataRepository.save(FileMetadataConverter.toEntity(fileMetadata)));
-        } catch (RuntimeException e) {
+        } catch (IOException e) {
             try {
                 storageProvider.delete(id);
             } catch (Exception ignored) {
             }
-
-            throw e;
         }
 
         return fileMetadata;
@@ -78,6 +77,10 @@ public class FileService {
         fileMetadataRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("ID does not exist"));
 
-        return storageProvider.download(id);
+        try {
+            return storageProvider.download(id);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("File does not exist");
+        }
     }
 }
