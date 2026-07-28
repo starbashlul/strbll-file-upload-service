@@ -45,9 +45,11 @@ public class FileController {
         return ResponseEntity.ok(result);
     }
 
-    @DeleteMapping
+    @DeleteMapping("{/id}")
     public ResponseEntity<FileMetadata> deleteFile(@NotNull @PathVariable UUID id) {
-        return fileService.
+        fileService.delete(id);
+
+        return ResponseEntity.noContent().build();
     }
 
 }

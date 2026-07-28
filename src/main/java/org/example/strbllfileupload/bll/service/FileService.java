@@ -5,8 +5,10 @@ import org.example.strbllfileupload.bll.exception.StorageException;
 import org.example.strbllfileupload.bll.model.FileMetadata;
 import org.example.strbllfileupload.bll.provider.StorageProvider;
 import org.example.strbllfileupload.dal.converter.FileMetadataConverter;
+import org.example.strbllfileupload.dal.entity.FileMetadataEntity;
 import org.example.strbllfileupload.dal.repository.FileMetadataRepository;
 import org.springframework.core.io.Resource;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -61,7 +63,7 @@ public class FileService {
             storageProvider.save(file, id);
 
             fileMetadata = FileMetadataConverter.toModel(fileMetadataRepository.save(FileMetadataConverter.toEntity(fileMetadata)));
-        } catch (IOException e) {
+        } catch (Exception ex) {
             try {
                 storageProvider.delete(id);
             } catch (Exception ignored) {
@@ -85,10 +87,17 @@ public class FileService {
             throw new StorageException("File download failed:", e);
         }
     }
+
     public void delete(UUID id) {
+        if(!fileMetadataRepository.existsById(id))
+            throw new FileNotFoundException(id);
+
         try {
             storageProvider.delete(id);
-
+        } catch (IOException e) {
+            throw new StorageException("File delete failed: ", e);
         }
+
+        fileMetadataRepository.deleteById(id);
     }
 }
