@@ -1,5 +1,6 @@
 package org.example.strbllfileupload.ep.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.constraints.NotNull;
 import org.example.strbllfileupload.bll.model.FileMetadata;
 import org.example.strbllfileupload.bll.service.FileService;
@@ -21,6 +22,7 @@ public class FileController {
         this.fileService = fileService;
     }
 
+    @Operation(summary = "Get file download and metadata")
     @GetMapping("/{id}")
     public ResponseEntity<Resource> getFile(@NotNull @PathVariable UUID id) {
         FileMetadata fileMetadata = fileService.getFileMetadata(id);
@@ -38,6 +40,7 @@ public class FileController {
                 .body(fileService.download(id));
     }
 
+    @Operation(summary = "Upload file")
     @PostMapping
     public ResponseEntity<FileMetadata> saveFile(@NotNull @RequestParam MultipartFile file) {
         FileMetadata result = fileService.save(file);
@@ -45,7 +48,8 @@ public class FileController {
         return ResponseEntity.ok(result);
     }
 
-    @DeleteMapping("{/id}")
+    @Operation(summary = "Delete file")
+    @DeleteMapping("/{id}")
     public ResponseEntity<FileMetadata> deleteFile(@NotNull @PathVariable UUID id) {
         fileService.delete(id);
 
