@@ -1,5 +1,7 @@
 package org.example.strbllfileupload.bll.service;
 
+import org.example.strbllfileupload.bll.exception.FileNotFoundException;
+import org.example.strbllfileupload.bll.exception.StorageException;
 import org.example.strbllfileupload.bll.model.FileMetadata;
 import org.example.strbllfileupload.bll.provider.StorageProvider;
 import org.example.strbllfileupload.dal.converter.FileMetadataConverter;
@@ -70,17 +72,23 @@ public class FileService {
     }
 
     public FileMetadata getFileMetadata(UUID id) {
-        return FileMetadataConverter.toModel(fileMetadataRepository.findById(id).orElse(null));
+        return FileMetadataConverter.toModel(fileMetadataRepository.findById(id).orElseThrow(() -> new FileNotFoundException(id)));
     }
 
     public Resource download(UUID id) {
         fileMetadataRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("ID does not exist"));
+                .orElseThrow(() -> new FileNotFoundException(id));
 
         try {
             return storageProvider.download(id);
         } catch (IOException e) {
-            throw new IllegalArgumentException("File does not exist");
+            throw new StorageException("File download failed:", e);
+        }
+    }
+    public void delete(UUID id) {
+        try {
+            storageProvider.delete(id);
+
         }
     }
 }

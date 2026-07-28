@@ -39,10 +39,15 @@ public class FileController {
     }
 
     @PostMapping
-    public ResponseEntity<FileMetadata> saveFile(@RequestParam MultipartFile file) {
+    public ResponseEntity<FileMetadata> saveFile(@NotNull @RequestParam MultipartFile file) {
         FileMetadata result = fileService.save(file);
 
         return ResponseEntity.ok(result);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<FileMetadata> deleteFile(@NotNull @PathVariable UUID id) {
+        return fileService.
     }
 
 }
