@@ -18,8 +18,17 @@ public class RestExceptionHandler {
                 .body(e.getMessage());
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> badRequest(
+            IllegalArgumentException e
+    ) {
+        return ResponseEntity
+                .badRequest()
+                .body(e.getMessage());
+    }
+
     @ExceptionHandler(StorageException.class)
-    public ResponseEntity<String> storageExceptino(
+    public ResponseEntity<String> storageException(
             StorageException e
     ) {
         return ResponseEntity
