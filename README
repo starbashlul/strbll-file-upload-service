@@ -1,0 +1,5 @@
+Infrastructure service for saving internal files.
+
+Before application start need to correctly set:
+1. file root location
+2. secret api key

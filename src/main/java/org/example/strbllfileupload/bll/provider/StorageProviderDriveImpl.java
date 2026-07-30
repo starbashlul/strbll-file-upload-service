@@ -1,5 +1,6 @@
 package org.example.strbllfileupload.bll.provider;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,8 @@ public class StorageProviderDriveImpl implements StorageProvider {
 
     private final Path rootLocation;
 
-    public StorageProviderDriveImpl(Path rootLocation) {
+
+    public StorageProviderDriveImpl(@Value("${storage.root-location}") Path rootLocation) {
         this.rootLocation = rootLocation;
     }
 
