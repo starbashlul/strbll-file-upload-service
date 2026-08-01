@@ -1,5 +1,6 @@
-Infrastructure service for saving internal files.
+Infrastructure service for saving files.
 
-Before application start need to correctly set:
-1. file root location
+Before application start need to correctly set in application.properties:
+1. file root folder location
 2. secret api key
+3. connect to DB
